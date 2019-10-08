@@ -1,4 +1,4 @@
-package com.kurs3;
+package itschool;
 
 public class Investor {
     String FIO;
@@ -45,7 +45,7 @@ public class Investor {
     }
 
     public static boolean CheckCorrectFIO(String str){
-        return  str.matches("^\\D*$");
+        return str.matches("^[A-Z]([a-z -]{0,})");
     }
 
     public static boolean CheckCorrectNumber(String str){
