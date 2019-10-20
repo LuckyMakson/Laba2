@@ -1,4 +1,4 @@
-package itschool;
+package com.kurs3;
 
 public class Investor {
     String FIO;
@@ -18,11 +18,25 @@ public class Investor {
         this.setContractTerm(contractTerm);
     }
 
-    public String getFIO() { return FIO; }
-    public String getContractNumber() { return contractNumber; }
-    public String getAddress() { return address; }
-    public int getDeposit() { return deposit; }
-    public int getContractTerm() { return contractTerm; }
+    public String getFIO() {
+        return FIO;
+    }
+
+    public String getContractNumber() {
+        return contractNumber;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public int getDeposit() {
+        return deposit;
+    }
+
+    public int getContractTerm() {
+        return contractTerm;
+    }
 
     public void setFIO(String FIO) {
         this.FIO = FIO;
@@ -44,11 +58,11 @@ public class Investor {
         this.contractTerm = contractTerm;
     }
 
-    public static boolean CheckCorrectFIO(String str){
+    public static boolean CheckCorrectFIO(String str) {
         return str.matches("^[A-Z]([a-z -]{0,})");
     }
 
-    public static boolean CheckCorrectNumber(String str){
+    public static boolean CheckCorrectNumber(String str) {
         double deposit;
         try {
             deposit = Double.parseDouble(str) > 0 ? Double.parseDouble(str) : -1;
