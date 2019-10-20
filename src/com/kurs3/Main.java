@@ -1,8 +1,9 @@
-package itschool;
+package com.kurs3;
 
 import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import java.util.SplittableRandom;
 
 public class Main {
     static Scanner in;
@@ -28,19 +29,23 @@ public class Main {
         } while (!check);
 
 
-        //investors.resize(num);
-
         for (int i = 0; i < num; i++) {
             investors.add(getNewInvestor());
         }
 
         System.out.println(investors);
 
-
         investors.add(getNewInvestor(), 2);
         System.out.println(investors);
 
+        System.out.println("Investors with FIO Investor: " + investors.getWithFIO("Investor"));
+
         System.out.println("Investors with deposit greater than 10000: " + investors.getWithGraterDeposit(10000));
+
+        System.out.println("Investors with term deposit greater than 12: " + investors.getWithGraterTempDeposit(12));
+
+        System.out.println("Enter FIO for delete: ");
+        System.out.println("Delete investors with FIO: " + Arrays.toString(investors.deleteWithFIO(in.nextLine())));
 
         investors.clear();
         System.out.printf("\n" + Arrays.toString(investors.getList()));
