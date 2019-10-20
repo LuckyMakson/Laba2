@@ -1,85 +1,114 @@
 package com.kurs3;
+import java.util.Arrays;
 
-public class Investor {
-    String FIO;
-    String contractNumber;
-    String address;
-    int deposit;
-    int contractTerm;
+public class Investors {
 
-    public Investor() {
+    private Investor[] list;
+
+    public Investor[] getList() {
+        return list;
     }
 
-    public Investor(String FIO, String contractNumber, String address, int deposit, int contractTerm) {
-        this.setFIO(FIO);
-        this.setContractNumber(contractNumber);
-        this.setAddress(address);
-        this.setDeposit(deposit);
-        this.setContractTerm(contractTerm);
+    public Investors() {
+        this.list = new Investor[0];
     }
 
-    public String getFIO() {
-        return FIO;
+    public Investors(int length) {
+        this.list = new Investor[length];
     }
 
-    public String getContractNumber() {
-        return contractNumber;
+    public void resize(int newLength) {
+        Investor[] tempList = new Investor[newLength];
+        tempList = Arrays.copyOf(this.list, newLength);
+
+        this.list = tempList;
     }
 
-    public String getAddress() {
-        return address;
-    }
-
-    public int getDeposit() {
-        return deposit;
-    }
-
-    public int getContractTerm() {
-        return contractTerm;
-    }
-
-    public void setFIO(String FIO) {
-        this.FIO = FIO;
-    }
-
-    public void setContractNumber(String contractNumber) {
-        this.contractNumber = contractNumber;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public void setDeposit(int deposit) {
-        this.deposit = deposit;
-    }
-
-    public void setContractTerm(int contractTerm) {
-        this.contractTerm = contractTerm;
-    }
-
-    public static boolean CheckCorrectFIO(String str) {
-        return str.matches("^[A-Z]([a-z -]{0,})");
-    }
-
-    public static boolean CheckCorrectNumber(String str) {
-        double deposit;
-        try {
-            deposit = Double.parseDouble(str) > 0 ? Double.parseDouble(str) : -1;
-        } catch (Exception e) {
-            return false;
+    public void add(Investor investor, int position) {
+        if (position > list.length - 1) {
+            this.resize(list.length + 1);
+            list[list.length - 1] = investor;
+        } else if (position > 0 && position < list.length) {
+            this.resize(list.length + 1);
+            Investor subinvestor = list[position-1];
+            Investor subinvestor2;
+            list[position - 1] = investor;
+            for(int i=position; i<list.length-1; i++) {
+                subinvestor2=list[i];
+                list[i] = subinvestor;
+                subinvestor = list[i+1];
+                list[i+1] = subinvestor2;
+            }
         }
-        return true;
+    }
+
+    public void add(Investor investor) {
+        this.resize(list.length + 1);
+        list[list.length - 1] = investor;
+    }
+
+    public Investor remove(int position) {
+        if (position >= 0 && position < list.length) {
+            Investor investor = list[position - 1];
+            for (int i = position - 1; i < list.length - 1; i++) {
+                list[i] = list[i + 1];
+            }
+
+            resize(list.length - 1);
+
+            return investor;
+        }
+        return null;
+    }
+
+    public void clear() {
+        resize(0);
+    }
+
+    public Investors getWithGraterDeposit(double deposit) {
+        Investors sublist = new Investors();
+        for (Investor investor : this.list) {
+            if (investor.deposit > deposit)
+                sublist.add(investor);
+        }
+        return sublist;
+    }
+
+    public Investors getWithGraterTempDeposit(double temp) {
+        Investors sublist = new Investors();
+        for (Investor investor : this.list) {
+            if (investor.contractTerm > temp)
+                sublist.add(investor);
+        }
+        return sublist;
+    }
+
+    public Investors getWithFIO(String FIO) {
+        Investors sublist = new Investors();
+        for (Investor investor : this.list) {
+            if (investor.FIO.equals(FIO))
+                sublist.add(investor);
+        }
+        return sublist;
+    }
+
+    public Investor[] deleteWithFIO(String FIO) {
+        Investor[] sublist = new Investor[0];
+        for (Investor investor : this.list) {
+            if (!investor.FIO.equals(FIO)) {
+                sublist = Arrays.copyOf(sublist, sublist.length + 1);
+                sublist[sublist.length - 1] = investor;
+            }
+        }
+        this.list = Arrays.copyOf(sublist, sublist.length);
+
+        return this.list;
     }
 
     @Override
     public String toString() {
-        return "Investor{" +
-                "FIO='" + FIO + '\'' +
-                ", contractNumber='" + contractNumber + '\'' +
-                ", address='" + address + '\'' +
-                ", deposit=" + deposit +
-                ", contractTerm=" + contractTerm +
+        return "Investors{" +
+                "list=" + Arrays.toString(list) +
                 '}';
     }
 }
